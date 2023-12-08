@@ -22,7 +22,6 @@ jobs:
     - name: Build with Maven
       run: |
         ./mvnw clean install
-      working-directory: your_project_directory
 
   package:
     runs-on: ubuntu-latest

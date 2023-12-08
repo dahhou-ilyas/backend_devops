@@ -19,6 +19,10 @@ jobs:
         distribution: 'adopt'
         java-version: '11'
 
+    - name: Give execute permission to mvnw
+      run: |
+        chmod +x mvnw
+
     - name: Build with Maven
       run: |
         ./mvnw clean install

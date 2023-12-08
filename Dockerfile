@@ -1,13 +1,10 @@
-# Image pour ranner le code java
-FROM openjdk:17-alpine
+FROM maven:3.8.3-openjdk-17-slim AS builder
+COPY pom.xml /app/
+COPY src /app/src
+RUN --mount=type=cache,target=/root/.m2 mvn -f /app/pom.xml clean package -DskipTests
 
-# Définitir la répertoire de travaille
-WORKDIR /app
-
+#Run
+FROM openjdk:17-jre-slim
+COPY --from=builder /app/target/spring-boot-data-jpa-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-
-# Copie du fichier JAR généré depuis l'étape de construction
-COPY target/spring-boot-data-jpa*.jar app.jar
-
-# Commande à exécuter lors du démarrage du conteneur
-ENTRYPOINT ["java","-jar","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

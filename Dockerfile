@@ -4,7 +4,7 @@ COPY src /app/src
 RUN --mount=type=cache,target=/root/.m2 mvn -f /app/pom.xml clean package -DskipTests
 
 #Run
-FROM openjdk:17-jre-slim
+FROM openjdk:17-alpine
 COPY --from=builder /app/target/spring-boot-data-jpa-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
